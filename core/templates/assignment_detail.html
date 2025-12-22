@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ assignment.title }}{% endblock %}
+
+{% block body %}
+<h2>{{ assignment.title }}</h2>
+
+{% if assignment.due_date %}
+<p><strong>Due:</strong> {{ assignment.due_date }}</p>
+{% endif %}
+
+<p class="text-muted">
+    Posted on {{ assignment.created_at|date:"M j, Y" }}
+</p>
+
+<hr>
+
+<p>{{ assignment.description }}</p>
+
+<a href="javascript:history.back()" class="btn btn-secondary mt-3">
+    ← Back
+</a>
+{% endblock %}

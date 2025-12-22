@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}Join Class{% endblock %}
+
+{% block body %}
+<h2 class="mb-4">Join a Class</h2>
+
+{% if message %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endif %}
+
+<form action="{% url 'join_classroom' %}" method="post">
+    {% csrf_token %}
+
+    <div class="form-group mb-3">
+        <input class="form-control" type="text" name="code" placeholder="Enter Class Code" required>
+    </div>
+
+    <button class="btn btn-primary w-100">Join Class</button>
+</form>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ classroom.name }}{% endblock %}
+
+{% block body %}
+
+<h2 class="mb-3">{{ classroom.name }}</h2>
+
+{% if classroom.description %}
+  <p class="text-muted">{{ classroom.description }}</p>
+{% endif %}
+
+<hr>
+
+{% if request.user.is_teacher %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">{{ classroom.name }}</h2>
+    <a href="{% url 'class_appearance' classroom.id %}"
+       class="btn btn-outline-secondary btn-sm">
+      Customize appearance
+    </a>
+  </div>
+{% endif %}
+
+{% if request.user.is_teacher %}
+  <div class="alert alert-info">
+    <strong>Join Code:</strong> {{ classroom.code }}
+  </div>
+{% endif %}
+
+<h4 class="mt-4">Assignments</h4>
+
+<ul class="nav nav-tabs mt-3">
+  <li class="nav-item">
+    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#active" type="button">
+      Active
+    </button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#past" type="button">
+      Past
+    </button>
+  </li>
+</ul>
+
+<div class="tab-content mt-3">
+
+  <!-- ACTIVE -->
+  <div class="tab-pane fade show active" id="active">
+    <ul class="list-group">
+      {% for assignment in active_assignments %}
+        <a href="{% url 'assignment_detail' assignment.id %}"
+           class="list-group-item list-group-item-action">
+
+          <strong>{{ assignment.title }}</strong>
+
+          {% if assignment.due_date %}
+            {% if assignment.due_date == today %}
+              <span class="badge bg-warning text-dark ms-2">Due Today</span>
+            {% endif %}
+
+            <span class="float-end text-muted">
+              Due: {{ assignment.due_date }}
+            </span>
+          {% endif %}
+
+        </a>
+      {% empty %}
+        <li class="list-group-item text-muted">No active assignments.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- PAST -->
+  <div class="tab-pane fade" id="past">
+    <ul class="list-group">
+      {% for assignment in past_assignments %}
+        <a href="{% url 'assignment_detail' assignment.id %}"
+           class="list-group-item list-group-item-action text-muted">
+
+          <strong>{{ assignment.title }}</strong>
+
+          {% if assignment.due_date %}
+            <span class="badge bg-danger ms-2">Overdue</span>
+
+            <span class="float-end">
+              Was due: {{ assignment.due_date }}
+            </span>
+          {% endif %}
+
+        </a>
+      {% empty %}
+        <li class="list-group-item text-muted">No past assignments.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+</div>
+
+{% if request.user.is_teacher %}
+  <a href="{% url 'create_assignment' classroom.id %}"
+     class="btn btn-primary mt-3">
+    + Add Assignment
+  </a>
+{% endif %}
+
+{% endblock %}

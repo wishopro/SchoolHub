@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<h2 class="mb-4">Dashboard</h2>
+
+<!-- Header row (Create / Join button) -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Your Classes</h4>
+
+    {% if request.user.is_teacher %}
+        <a href="{% url 'create_classroom' %}" class="btn btn-primary">
+            + Create Class
+        </a>
+    {% else %}
+        <a href="{% url 'join_classroom' %}" class="btn btn-primary">
+            + Join Class
+        </a>
+    {% endif %}
+</div>
+
+{% if classes %}
+    <div class="row">
+        {% for classroom in classes %}
+        <div class="col-md-4 mb-4">
+
+            <a href="{% url 'class_detail' classroom.id %}" class="text-decoration-none">
+
+                <div class="card shadow-sm" style="border-radius: 12px; overflow: hidden;">
+
+                    <!-- TOP SECTION: image OR gradient -->
+                    {% if classroom.banner_image %}
+                        <div style="
+                            height: 130px;
+                            background-image: url('{{ classroom.banner_image.url }}');
+                            background-size: cover;
+                            background-position: center;
+                        "></div>
+                    {% else %}
+                        <div style="
+                            height: 130px;
+                            background: linear-gradient(
+                                135deg,
+                                {{ classroom.gradient_start }},
+                                {{ classroom.gradient_end }}
+                            );
+                            position: relative;
+                            border-bottom: 3px solid rgba(0,0,0,0.1);
+                        ">
+                            <!-- Soft white overlay makes colors smoother (I LOVE HOW IT WORKS) --> 
+                            <div style="
+                                position: absolute;
+                                inset: 0;
+                                background: rgba(255,255,255,0.05);
+                            "></div>
+                        </div>
+                    {% endif %}
+
+                    
+                    <div class="card-body bg-light">
+
+                        
+                        <h5 class="card-title text-dark">{{ classroom.name }}</h5>
+
+                        
+                        {% if request.user.is_teacher %}
+                            <p class="text-muted mb-1">
+                                {{ classroom.enrollment_set.count }} students
+                            </p>
+                        {% endif %}
+
+                        <!-- Class code -->
+                        <p class="text-muted small mb-0">
+                            Code:
+                            <strong>{{ classroom.code }}</strong>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+
+    <div class="text-center text-muted mt-5">
+        {% if request.user.is_teacher %}
+            <p>You haven't created any classes yet.</p>
+        {% else %}
+            <p>You haven't joined any classes yet.</p>
+        {% endif %}
+    </div>
+
+{% endif %}
+
+{% endblock %}

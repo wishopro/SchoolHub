@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block title %}Customize {{ classroom.name }}{% endblock %}
+
+{% block body %}
+
+<h2 class="mb-3">Customize Class Appearance</h2>
+<p class="text-muted mb-4">Class: {{ classroom.name }}</p>
+
+{% if message %}
+    <div class="alert alert-info">{{ message }}</div>
+{% endif %}
+
+<div class="row">
+    <!-- Preview! -->
+    <div class="col-md-6 mb-4">
+        <h5 class="mb-3">Preview</h5>
+
+        <div class="card shadow-sm" style="border-radius: 12px; overflow: hidden;">
+
+            {% if classroom.banner_image %}
+                <div style="
+                    height: 140px;
+                    background-image: url('{{ classroom.banner_image.url }}');
+                    background-size: cover;
+                    background-position: center;
+                "></div>
+            {% else %}
+                <div style="
+                    height: 140px;
+                    background: linear-gradient(
+                        135deg,
+                        {{ classroom.gradient_start }},
+                        {{ classroom.gradient_end }}
+                    );
+                    position: relative;
+                ">
+                    <div style="
+                        position: absolute;
+                        inset: 0;
+                        background: rgba(0,0,0,0.15);
+                    "></div>
+                </div>
+            {% endif %}
+
+            <div class="card-body bg-light">
+                <h5 class="card-title mb-1">{{ classroom.name }}</h5>
+                <p class="text-muted small mb-0">
+                    Code: <strong>{{ classroom.code }}</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="col-md-6 mb-4">
+        <h5 class="mb-3">Change Banner</h5>
+
+        <form action="{% url 'class_appearance' classroom.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group mb-3">
+                <label for="banner_image" class="form-label">Upload banner image</label>
+                <input class="form-control" type="file" name="banner_image" id="banner_image" accept="image/*">
+                <small class="text-muted">Supported: JPG, PNG, WEBP</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary mb-3">Save banner</button>
+        </form>
+
+        <form action="{% url 'class_appearance' classroom.id %}" method="post" class="mt-3">
+            {% csrf_token %}
+            <button type="submit" name="remove_banner" value="1" class="btn btn-outline-danger btn-sm">
+                Remove banner (use gradient)
+            </button>
+        </form>
+
+        <form action="{% url 'class_appearance' classroom.id %}" method="post" class="mt-3">
+            {% csrf_token %}
+            <button type="submit" name="regen_gradient" value="1" class="btn btn-outline-secondary btn-sm">
+                Regenerate gradient theme
+            </button>
+        </form>
+    </div>
+</div>
+
+<a href="{% url 'class_detail' classroom.id %}" class="btn btn-link mt-2">
+    ← Back to class
+</a>
+
+{% endblock %}
