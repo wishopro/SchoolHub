@@ -1,45 +1,138 @@
-SchoolHub
+# SchoolHub
 
-Distinctiveness
-SchoolHub is a web platform centered around supporting school organizations. Its purpose is to provide a centralized place where teachers can organize and publish assignments such as homework and other tasks, and where students can view all of this information in one location. By separating teacher responsibilities from student access, the platform focuses on academic organization rather than social interaction or commerce.
+**SchoolHub** is a full-stack web application built with Django to help schools organize and manage academic assignments in a centralized platform. It allows teachers to publish homework and tasks while giving students a clean, structured interface to view their assignments in one place. This project was developed independently as the final capstone for **CS50’s Web Programming with Python and JavaScript (CS50W)** and is designed as a practical, production-style web application rather than a demonstration project.
 
-Complexity
-This project is distinct from all previous CS50W projects in both functionality and design. It is not a social network like Project 4, as it does not include following users, social feeds, or post-based interaction. It is also not an e-commerce application like Project 2, since it does not involve product listings, auctions, payments, or transactions. Instead, SchoolHub focuses on organizing and managing school-related information through a centralized platform built specifically for this purpose.
-From a backend perspective, the project demonstrates complexity through the use of Django models to represent persistent data stored in a relational database. The application implements user authentication using Django’s built-in authentication system, ensuring that certain features are restricted to logged-in users. Database migrations, model relationships, and admin configuration were required to support the application’s functionality, making the backend more complex than earlier course projects.
-On the frontend, the project combines Django templates with JavaScript to create a dynamic and responsive user experience. JavaScript is used to handle client-side behavior and enhance interactivity beyond static page rendering. Static files are managed separately from backend logic, and the layout is designed to be mobile-responsive, requiring additional consideration for usability across different screen sizes.
-Overall, the project required integrating backend logic, database design, authentication, frontend templates, JavaScript interactivity, and media handling into a single cohesive system. Designing and connecting these components involved architectural planning and independent problem-solving that goes beyond the scope of the earlier CS50W assignments, demonstrating both originality and technical complexity.
+---
 
+## Features
 
+- **User Authentication:** Secure login and registration using Django’s authentication system with role-based separation between teachers and students.
+- **Assignment Management:** Teachers can create and publish assignments; students can view all assigned work in a centralized dashboard.
+- **Structured Data Model:** Relational database design using Django ORM with persistent storage for users, assignments, and related entities.
+- **Dynamic Frontend:** Django templates combined with JavaScript for interactivity and a responsive layout for usability across devices.
+- **Static & Media Handling:** Organized static assets (CSS/JavaScript) and support for uploaded media where applicable.
 
-File Structure
+---
 
-- `manage.py` – Django management script
-- `schoolhub/` – Project configuration (settings, URLs, WSGI/ASGI)
-- `core/` – Main application logic
-- `core/models.py` – Database models
-- `core/views.py` – Request-handling logic
-- `core/urls.py` – URL routing
-- `core/templates/` – HTML templates
-- `static/` – CSS and JavaScript files
-- `media/` – Uploaded media files
+## Live Demo
 
-How to Run
+**URL:** https://schoolhub-xoua.onrender.com 
 
-1. Clone the repository
-2. Create and activate a virtual environment
-3. Install dependencies:
-   pip install -r requirements.txt
-4. Apply migrations:
-   python manage.py migrate
-5. Run the server:
-   python manage.py runserver
-6. Open http://127.0.0.1:8000/
+*(Hosted on a free tier. The site may take a few seconds to load after inactivity.)*
 
-Additional Information
+---
 
-This project was developed independently as a final project for CS50W. All code was written specifically for this project and does not reuse code from previous assignments.
+## Screenshots
 
-Requirements
+### Landing Page
+![Landing Page](screenshots/landing.png)
 
-- Python 3
+### Registration
+![Register](screenshots/register.png)
+
+### Student Dashboard (No Classes)
+![Empty Dashboard](screenshots/dashboard-empty.png)
+
+### Student Dashboard (With Class)
+![Dashboard With Class](screenshots/dashboard-with-class.png)
+
+---
+
+## Technical Overview
+
+SchoolHub is built as a full-stack web application with clear separation between backend logic, database models, and frontend presentation. The backend uses Django with custom models, migrations, authentication, and clean URL routing. The frontend uses Django templates with JavaScript for client-side interactivity and a mobile-responsive layout. The project architecture is modular, maintainable, and designed with scalability in mind.
+
+---
+
+## Project Structure
+
+```text
+SchoolHub/
+│
+├── manage.py              # Django management script
+├── schoolhub/             # Project configuration (settings, URLs, WSGI/ASGI)
+│
+├── core/                  # Main application logic
+│   ├── models.py          # Database models
+│   ├── views.py           # Request-handling logic
+│   ├── urls.py            # URL routing
+│   └── templates/         # HTML templates
+│
+├── static/                # CSS and JavaScript files
+├── media/                 # Uploaded media files
+└── requirements.txt       # Python dependencies
+```
+
+---
+
+## Installation & Setup
+
+### Requirements
+- Python 3.x
 - Django
+
+### Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/wishopro/SchoolHub.git
+   cd SchoolHub
+   ```
+
+2. **Create and activate a virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   # macOS/Linux
+   venv\Scripts\activate      # Windows
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Apply database migrations**
+   ```bash
+   python manage.py migrate
+   ```
+
+5. **Run the development server**
+   ```bash
+   python manage.py runserver
+   ```
+
+6. **Open in your browser**
+   ```
+   http://127.0.0.1:8000/
+   ```
+
+---
+
+## Project Context
+
+SchoolHub was developed independently as the final project for **CS50W**. All code was written specifically for this application and does not reuse implementations from earlier course assignments. The project emphasizes real-world application structure, backend data modeling, authentication and access control, frontend integration, and full-stack system design.
+
+---
+
+## Tech Stack
+
+- Python  
+- Django  
+- JavaScript  
+- HTML/CSS  
+- SQLite (development)
+
+---
+
+## Future Improvements
+
+- Role-based permissions (admin, teacher, student)  
+- Assignment deadlines and notifications  
+- File uploads for submissions  
+- REST API for mobile integration  
+
+---
+
+## License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
